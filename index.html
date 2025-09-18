@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Учебный дневник</title>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --success: #4cc9f0;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --border: #dee2e6;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fb;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 0;
+            box-shadow: var(--shadow);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid white;
+            color: white;
+        }
+        
+        .btn-outline:hover {
+            background-color: white;
+            color: var(--primary);
+        }
+        
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .btn-danger {
+            background-color: #e5383b;
+            color: white;
+        }
+        
+        main {
+            padding: 2rem 0;
+        }
+        
+        .auth-container, .diary-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .diary-container {
+            display: none;
+        }
+        
+        h2 {
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+        
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .subject-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 15px;
+            align-items: end;
+            margin-bottom: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .subject-form {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .subjects-list {
+            margin-top: 2rem;
+        }
+        
+        .subject-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .subject-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .subject-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        
+        .subject-average {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .grades-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 1rem;
+        }
+        
+        .grade-item {
+            background-color: var(--light);
+            padding: 8px 12px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .error-message {
+            color: #e5383b;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .success-message {
+            color: #2a9d8f;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+        }
+        
+        .setup-instructions {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .setup-instructions h3 {
+            color: #856404;
+            margin-bottom: 1rem;
+        }
+        
+        .setup-instructions ol {
+            margin-left: 1.5rem;
+        }
+        
+        .setup-instructions li {
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">Учебный дневник</div>
+            <div class="auth-buttons" id="authButtons">
+                <button class="btn-outline" id="loginBtn">Вход</button>
+                <button class="btn-primary" id="registerBtn">Регистрация</button>
+            </div>
+            <div class="user-info" id="userInfo" style="display: none;">
+                <span id="userEmail"></span>
+                <button class="btn-outline" id="logoutBtn">Выйти</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="auth-container" id="authContainer">
+            <h2 id="authTitle">Регистрация</h2>
+            <form id="authForm">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Пароль</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit" class="btn-primary" id="authSubmit">Зарегистрироваться</button>
+            </form>
+            <div id="authMessage" class="error-message"></div>
+        </div>
+
+        <div class="diary-container" id="diaryContainer">
+            <h2>Мои предметы и оценки</h2>
+            
+            <form id="subjectForm" class="subject-form">
+                <div class="form-group">
+                    <label for="subjectName">Название предмета</label>
+                    <input type="text" id="subjectName" required>
+                </div>
+                <div class="form-group">
+                    <label for="grade">Оценка</label>
+                    <input type="number" id="grade" min="1" max="5" required>
+                </div>
+                <button type="submit" class="btn-success">Добавить</button>
+            </form>
+            
+            <div id="subjectsList" class="subjects-list">
+                <!-- Список предметов будет здесь -->
+            </div>
+        </div>
+        
+        <div class="setup-instructions">
+            <h3>Настройка Firebase</h3>
+            <ol>
+                <li>Перейдите на <a href="https://console.firebase.google.com/" target="_blank">консоль Firebase</a></li>
+                <li>Создайте новый проект или выберите существующий</li>
+                <li>В разделе "Authentication" включите вход по email/password</li>
+                <li>В разделе "Firestore Database" создайте базу данных в режиме тестовой среды</li>
+                <li>Установите следующие правила безопасности для Firestore:</li>
+            </ol>
+            <pre>
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+      
+      match /subjects/{subject} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+    }
+  }
+}
+            </pre>
+        </div>
+    </main>
+
+    <!-- Firebase App (основной SDK Firebase) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <!-- Firebase Authentication -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <!-- Firebase Firestore -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+    <script>
+        // Конфигурация Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyCaNedHxv1aybxGcUR-mU9TkMuLf2toQG4",
+            authDomain: "dnevnik-d4846.firebaseapp.com",
+            projectId: "dnevnik-d4846",
+            storageBucket: "dnevnik-d4846.firebasestorage.app",
+            messagingSenderId: "879922990092",
+            appId: "1:879922990092:web:78262b08cd5437dbfc3229"
+        };
+
+        // Инициализация Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // Элементы DOM
+        const authContainer = document.getElementById('authContainer');
+        const diaryContainer = document.getElementById('diaryContainer');
+        const authForm = document.getElementById('authForm');
+        const authTitle = document.getElementById('authTitle');
+        const authSubmit = document.getElementById('authSubmit');
+        const authMessage = document.getElementById('authMessage');
+        const loginBtn = document.getElementById('loginBtn');
+        const registerBtn = document.getElementById('registerBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const authButtons = document.getElementById('authButtons');
+        const userInfo = document.getElementById('userInfo');
+        const userEmail = document.getElementById('userEmail');
+        const subjectForm = document.getElementById('subjectForm');
+        const subjectsList = document.getElementById('subjectsList');
+
+        let isLoginMode = false;
+
+        // Переключение между режимами входа и регистрации
+        loginBtn.addEventListener('click', () => {
+            isLoginMode = true;
+            authTitle.textContent = 'Вход';
+            authSubmit.textContent = 'Войти';
+            authMessage.textContent = '';
+        });
+
+        registerBtn.addEventListener('click', () => {
+            isLoginMode = false;
+            authTitle.textContent = 'Регистрация';
+            authSubmit.textContent = 'Зарегистрироваться';
+            authMessage.textContent = '';
+        });
+
+        // Обработка формы аутентификации
+        authForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            authMessage.textContent = '';
+            
+            if (isLoginMode) {
+                // Вход
+                auth.signInWithEmailAndPassword(email, password)
+                    .then((userCredential) => {
+                        // Успешный вход
+                        authMessage.textContent = '';
+                    })
+                    .catch((error) => {
+                        authMessage.textContent = error.message;
+                    });
+            } else {
+                // Регистрация
+                auth.createUserWithEmailAndPassword(email, password)
+                    .then((userCredential) => {
+                        // Успешная регистрация
+                        authMessage.textContent = '';
+                    })
+                    .catch((error) => {
+                        authMessage.textContent = error.message;
+                    });
+            }
+        });
+
+        // Выход из системы
+        logoutBtn.addEventListener('click', () => {
+            auth.signOut();
+        });
+
+        // Добавление предмета и оценки
+        subjectForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const subjectName = document.getElementById('subjectName').value;
+            const grade = parseInt(document.getElementById('grade').value);
+            const user = auth.currentUser;
+            
+            if (user && subjectName && grade) {
+                // Добавляем оценку к предмету
+                addGradeToSubject(user.uid, subjectName, grade);
+                subjectForm.reset();
+            }
+        });
+
+        // Функция для добавления оценки к предмету
+        function addGradeToSubject(userId, subjectName, grade) {
+            const subjectRef = db.collection('users').doc(userId).collection('subjects').doc(subjectName);
+            
+            subjectRef.get()
+                .then((doc) => {
+                    if (doc.exists) {
+                        // Предмет существует, обновляем его
+                        const data = doc.data();
+                        const updatedGrades = [...data.grades, grade];
+                        const average = calculateAverage(updatedGrades);
+                        
+                        subjectRef.update({
+                            grades: updatedGrades,
+                            average: average
+                        });
+                    } else {
+                        // Предмет не существует, создаем новый
+                        subjectRef.set({
+                            name: subjectName,
+                            grades: [grade],
+                            average: grade
+                        });
+                    }
+                })
+                .catch((error) => {
+                    console.error("Ошибка при добавлении оценки: ", error);
+                });
+        }
+
+        // Функция для расчета среднего арифметического
+        function calculateAverage(grades) {
+            const sum = grades.reduce((total, grade) => total + grade, 0);
+            return sum / grades.length;
+        }
+
+        // Функция для загрузки предметов пользователя
+        function loadUserSubjects(userId) {
+            subjectsList.innerHTML = '';
+            
+            db.collection('users').doc(userId).collection('subjects')
+                .get()
+                .then((querySnapshot) => {
+                    if (querySnapshot.empty) {
+                        subjectsList.innerHTML = '<p>У вас пока нет предметов. Добавьте первый предмет!</p>';
+                        return;
+                    }
+                    
+                    querySnapshot.forEach((doc) => {
+                        const subject = doc.data();
+                        renderSubject(subject);
+                    });
+                })
+                .catch((error) => {
+                    console.error("Ошибка при загрузке предметов: ", error);
+                });
+        }
+
+        // Функция для отображения предмета
+        function renderSubject(subject) {
+            const subjectElement = document.createElement('div');
+            subjectElement.className = 'subject-card';
+            
+            const gradesHtml = subject.grades.map(grade => 
+                `<span class="grade-item">${grade}</span>`
+            ).join('');
+            
+            subjectElement.innerHTML = `
+                <div class="subject-header">
+                    <div class="subject-title">${subject.name}</div>
+                    <div class="subject-average">Средний балл: ${subject.average.toFixed(2)}</div>
+                </div>
+                <div class="grades-list">${gradesHtml}</div>
+            `;
+            
+            subjectsList.appendChild(subjectElement);
+        }
+
+        // Отслеживание состояния аутентификации
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                // Пользователь вошел в систему
+                userEmail.textContent = user.email;
+                authButtons.style.display = 'none';
+                userInfo.style.display = 'flex';
+                authContainer.style.display = 'none';
+                diaryContainer.style.display = 'block';
+                
+                // Загружаем предметы пользователя
+                loadUserSubjects(user.uid);
+            } else {
+                // Пользователь вышел из системы
+                authButtons.style.display = 'flex';
+                userInfo.style.display = 'none';
+                authContainer.style.display = 'block';
+                diaryContainer.style.display = 'none';
+                subjectsList.innerHTML = '';
+            }
+        });
+    </script>
+</body>
+</html>
