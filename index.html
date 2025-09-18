@@ -6,14 +6,18 @@
     <title>Учебный дневник</title>
     <style>
         :root {
-            --primary: #4361ee;
-            --secondary: #3a0ca3;
-            --success: #4cc9f0;
-            --light: #f8f9fa;
-            --dark: #212529;
-            --gray: #6c757d;
-            --border: #dee2e6;
-            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --dark-bg: #121212;
+            --dark-card: #1e1e1e;
+            --dark-border: #333;
+            --dark-text: #e0e0e0;
+            --dark-primary: #3a4750;
+            --dark-secondary: #303841;
+            --dark-accent: #00adb5;
+            --dark-hover: #2c3e50;
+            --dark-success: #2e7d32;
+            --dark-danger: #c62828;
+            --dark-gray: #555;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
         }
         
         * {
@@ -24,8 +28,8 @@
         }
         
         body {
-            background-color: #f5f7fb;
-            color: var(--dark);
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
             line-height: 1.6;
         }
         
@@ -36,8 +40,8 @@
         }
         
         header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
+            background: linear-gradient(135deg, var(--dark-primary), var(--dark-secondary));
+            color: var(--dark-text);
             padding: 1rem 0;
             box-shadow: var(--shadow);
         }
@@ -68,33 +72,50 @@
         }
         
         .btn-primary {
-            background-color: var(--primary);
-            color: white;
+            background-color: var(--dark-primary);
+            color: var(--dark-text);
         }
         
         .btn-primary:hover {
-            background-color: var(--secondary);
+            background-color: var(--dark-hover);
         }
         
         .btn-outline {
             background-color: transparent;
-            border: 1px solid white;
-            color: white;
+            border: 1px solid var(--dark-text);
+            color: var(--dark-text);
         }
         
         .btn-outline:hover {
-            background-color: white;
-            color: var(--primary);
+            background-color: var(--dark-text);
+            color: var(--dark-primary);
         }
         
         .btn-success {
-            background-color: var(--success);
+            background-color: var(--dark-success);
             color: white;
         }
         
+        .btn-success:hover {
+            background-color: #1b5e20;
+        }
+        
         .btn-danger {
-            background-color: #e5383b;
+            background-color: var(--dark-danger);
             color: white;
+        }
+        
+        .btn-danger:hover {
+            background-color: #b71c1c;
+        }
+        
+        .btn-accent {
+            background-color: var(--dark-accent);
+            color: white;
+        }
+        
+        .btn-accent:hover {
+            background-color: #0097a7;
         }
         
         main {
@@ -102,11 +123,12 @@
         }
         
         .auth-container, .diary-container {
-            background-color: white;
+            background-color: var(--dark-card);
             border-radius: 8px;
             box-shadow: var(--shadow);
             padding: 2rem;
             margin-bottom: 2rem;
+            border: 1px solid var(--dark-border);
         }
         
         .diary-container {
@@ -115,7 +137,7 @@
         
         h2 {
             margin-bottom: 1.5rem;
-            color: var(--primary);
+            color: var(--dark-accent);
         }
         
         .form-group {
@@ -131,9 +153,16 @@
         input, select {
             width: 100%;
             padding: 10px;
-            border: 1px solid var(--border);
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+            border: 1px solid var(--dark-border);
             border-radius: 4px;
             font-size: 1rem;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--dark-accent);
         }
         
         .subject-form {
@@ -155,12 +184,13 @@
         }
         
         .subject-card {
-            background-color: white;
+            background-color: var(--dark-card);
             border-radius: 8px;
             box-shadow: var(--shadow);
             padding: 1.5rem;
             margin-bottom: 1.5rem;
-            border-left: 4px solid var(--primary);
+            border-left: 4px solid var(--dark-accent);
+            border: 1px solid var(--dark-border);
         }
         
         .subject-header {
@@ -178,7 +208,7 @@
         .subject-average {
             font-size: 1.2rem;
             font-weight: bold;
-            color: var(--primary);
+            color: var(--dark-accent);
         }
         
         .grades-list {
@@ -189,7 +219,7 @@
         }
         
         .grade-item {
-            background-color: var(--light);
+            background-color: var(--dark-primary);
             padding: 8px 12px;
             border-radius: 20px;
             display: flex;
@@ -197,14 +227,19 @@
             gap: 5px;
         }
         
+        .grade-actions {
+            display: flex;
+            gap: 5px;
+        }
+        
         .error-message {
-            color: #e5383b;
+            color: #ef5350;
             margin-top: 0.5rem;
             font-size: 0.9rem;
         }
         
         .success-message {
-            color: #2a9d8f;
+            color: #4caf50;
             margin-top: 0.5rem;
             font-size: 0.9rem;
         }
@@ -213,28 +248,74 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            color: white;
+            color: var(--dark-text);
         }
         
-        .setup-instructions {
-            background-color: #fff3cd;
-            border: 1px solid #ffeaa7;
-            border-radius: 8px;
-            padding: 1.5rem;
+        .tabs {
+            display: flex;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--dark-border);
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: var(--dark-text);
+            font-weight: 500;
+        }
+        
+        .tab.active {
+            border-bottom: 3px solid var(--dark-accent);
+            color: var(--dark-accent);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .admin-panel {
             margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--dark-border);
         }
         
-        .setup-instructions h3 {
-            color: #856404;
+        .user-list {
+            margin-top: 1rem;
+        }
+        
+        .user-item {
+            padding: 1rem;
+            background-color: var(--dark-card);
+            border-radius: 8px;
             margin-bottom: 1rem;
+            border: 1px solid var(--dark-border);
+            cursor: pointer;
+            transition: all 0.3s;
         }
         
-        .setup-instructions ol {
-            margin-left: 1.5rem;
+        .user-item:hover {
+            background-color: var(--dark-primary);
         }
         
-        .setup-instructions li {
-            margin-bottom: 0.5rem;
+        .edit-form {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .edit-input {
+            flex: 1;
+        }
+        
+        .small-btn {
+            padding: 5px 10px;
+            font-size: 0.8rem;
         }
     </style>
 </head>
@@ -271,48 +352,40 @@
         </div>
 
         <div class="diary-container" id="diaryContainer">
-            <h2>Мои предметы и оценки</h2>
-            
-            <form id="subjectForm" class="subject-form">
-                <div class="form-group">
-                    <label for="subjectName">Название предмета</label>
-                    <input type="text" id="subjectName" required>
-                </div>
-                <div class="form-group">
-                    <label for="grade">Оценка</label>
-                    <input type="number" id="grade" min="1" max="5" required>
-                </div>
-                <button type="submit" class="btn-success">Добавить</button>
-            </form>
-            
-            <div id="subjectsList" class="subjects-list">
-                <!-- Список предметов будет здесь -->
+            <div class="tabs">
+                <button class="tab active" data-tab="subjects">Предметы</button>
+                <button class="tab" data-tab="grades">Оценки</button>
+                <button class="tab" data-tab="admin" id="adminTab" style="display: none;">Админ-панель</button>
             </div>
-        </div>
-        
-        <div class="setup-instructions">
-            <h3>Настройка Firebase</h3>
-            <ol>
-                <li>Перейдите на <a href="https://console.firebase.google.com/" target="_blank">консоль Firebase</a></li>
-                <li>Создайте новый проект или выберите существующий</li>
-                <li>В разделе "Authentication" включите вход по email/password</li>
-                <li>В разделе "Firestore Database" создайте базу данных в режиме тестовой среды</li>
-                <li>Установите следующие правила безопасности для Firestore:</li>
-            </ol>
-            <pre>
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    match /users/{userId} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
-      
-      match /subjects/{subject} {
-        allow read, write: if request.auth != null && request.auth.uid == userId;
-      }
-    }
-  }
-}
-            </pre>
+            
+            <div class="tab-content active" id="subjectsTab">
+                <h2>Мои предметы</h2>
+                <button class="btn-accent" id="addSubjectBtn">Добавить предмет</button>
+                
+                <div id="subjectsList" class="subjects-list">
+                    <!-- Список предметов будет здесь -->
+                </div>
+            </div>
+            
+            <div class="tab-content" id="gradesTab">
+                <h2>Мои оценки</h2>
+                <div id="gradesContent">
+                    <!-- Содержимое вкладки с оценками -->
+                </div>
+            </div>
+            
+            <div class="tab-content" id="adminTabContent">
+                <h2>Просмотр дневников пользователей</h2>
+                <div class="admin-panel">
+                    <h3>Список пользователей</h3>
+                    <div id="usersList" class="user-list">
+                        <!-- Список пользователей будет здесь -->
+                    </div>
+                    <div id="selectedUserDiary">
+                        <!-- Дневник выбранного пользователя -->
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
 
@@ -352,10 +425,19 @@ service cloud.firestore {
         const authButtons = document.getElementById('authButtons');
         const userInfo = document.getElementById('userInfo');
         const userEmail = document.getElementById('userEmail');
-        const subjectForm = document.getElementById('subjectForm');
         const subjectsList = document.getElementById('subjectsList');
+        const addSubjectBtn = document.getElementById('addSubjectBtn');
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const adminTab = document.getElementById('adminTab');
+        const adminTabContent = document.getElementById('adminTabContent');
+        const gradesContent = document.getElementById('gradesContent');
+        const usersList = document.getElementById('usersList');
+        const selectedUserDiary = document.getElementById('selectedUserDiary');
 
         let isLoginMode = false;
+        let currentUser = null;
+        let isAdmin = false;
 
         // Переключение между режимами входа и регистрации
         loginBtn.addEventListener('click', () => {
@@ -370,6 +452,25 @@ service cloud.firestore {
             authTitle.textContent = 'Регистрация';
             authSubmit.textContent = 'Зарегистрироваться';
             authMessage.textContent = '';
+        });
+
+        // Переключение вкладок
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabId = tab.getAttribute('data-tab');
+                
+                // Активируем выбранную вкладку
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(tc => tc.classList.remove('active'));
+                
+                tab.classList.add('active');
+                document.getElementById(`${tabId}Tab`).classList.add('active');
+                
+                // Если выбрана вкладка оценок, загружаем оценки
+                if (tabId === 'grades') {
+                    loadGradesTab();
+                }
+            });
         });
 
         // Обработка формы аутентификации
@@ -409,20 +510,30 @@ service cloud.firestore {
             auth.signOut();
         });
 
-        // Добавление предмета и оценки
-        subjectForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            const subjectName = document.getElementById('subjectName').value;
-            const grade = parseInt(document.getElementById('grade').value);
-            const user = auth.currentUser;
-            
-            if (user && subjectName && grade) {
-                // Добавляем оценку к предмету
-                addGradeToSubject(user.uid, subjectName, grade);
-                subjectForm.reset();
+        // Добавление нового предмета
+        addSubjectBtn.addEventListener('click', () => {
+            const subjectName = prompt('Введите название предмета:');
+            if (subjectName && currentUser) {
+                addNewSubject(currentUser.uid, subjectName);
             }
         });
+
+        // Функция для добавления нового предмета
+        function addNewSubject(userId, subjectName) {
+            const subjectRef = db.collection('users').doc(userId).collection('subjects').doc(subjectName);
+            
+            subjectRef.set({
+                name: subjectName,
+                grades: [],
+                average: 0
+            })
+            .then(() => {
+                loadUserSubjects(userId);
+            })
+            .catch((error) => {
+                console.error("Ошибка при добавлении предмета: ", error);
+            });
+        }
 
         // Функция для добавления оценки к предмету
         function addGradeToSubject(userId, subjectName, grade) {
@@ -440,13 +551,6 @@ service cloud.firestore {
                             grades: updatedGrades,
                             average: average
                         });
-                    } else {
-                        // Предмет не существует, создаем новый
-                        subjectRef.set({
-                            name: subjectName,
-                            grades: [grade],
-                            average: grade
-                        });
                     }
                 })
                 .catch((error) => {
@@ -454,8 +558,74 @@ service cloud.firestore {
                 });
         }
 
+        // Функция для обновления названия предмета
+        function updateSubjectName(userId, oldName, newName) {
+            const oldRef = db.collection('users').doc(userId).collection('subjects').doc(oldName);
+            const newRef = db.collection('users').doc(userId).collection('subjects').doc(newName);
+            
+            oldRef.get()
+                .then((doc) => {
+                    if (doc.exists) {
+                        const data = doc.data();
+                        newRef.set(data);
+                        oldRef.delete();
+                        loadUserSubjects(userId);
+                    }
+                })
+                .catch((error) => {
+                    console.error("Ошибка при обновлении предмета: ", error);
+                });
+        }
+
+        // Функция для обновления оценки
+        function updateGrade(userId, subjectName, gradeIndex, newGrade) {
+            const subjectRef = db.collection('users').doc(userId).collection('subjects').doc(subjectName);
+            
+            subjectRef.get()
+                .then((doc) => {
+                    if (doc.exists) {
+                        const data = doc.data();
+                        const updatedGrades = [...data.grades];
+                        updatedGrades[gradeIndex] = newGrade;
+                        const average = calculateAverage(updatedGrades);
+                        
+                        subjectRef.update({
+                            grades: updatedGrades,
+                            average: average
+                        });
+                    }
+                })
+                .catch((error) => {
+                    console.error("Ошибка при обновлении оценки: ", error);
+                });
+        }
+
+        // Функция для удаления оценки
+        function deleteGrade(userId, subjectName, gradeIndex) {
+            const subjectRef = db.collection('users').doc(userId).collection('subjects').doc(subjectName);
+            
+            subjectRef.get()
+                .then((doc) => {
+                    if (doc.exists) {
+                        const data = doc.data();
+                        const updatedGrades = [...data.grades];
+                        updatedGrades.splice(gradeIndex, 1);
+                        const average = calculateAverage(updatedGrades);
+                        
+                        subjectRef.update({
+                            grades: updatedGrades,
+                            average: average
+                        });
+                    }
+                })
+                .catch((error) => {
+                    console.error("Ошибка при удалении оценки: ", error);
+                });
+        }
+
         // Функция для расчета среднего арифметического
         function calculateAverage(grades) {
+            if (grades.length === 0) return 0;
             const sum = grades.reduce((total, grade) => total + grade, 0);
             return sum / grades.length;
         }
@@ -482,47 +652,224 @@ service cloud.firestore {
                 });
         }
 
+        // Функция для загрузки вкладки с оценками
+        function loadGradesTab() {
+            gradesContent.innerHTML = '';
+            
+            if (!currentUser) return;
+            
+            db.collection('users').doc(currentUser.uid).collection('subjects')
+                .get()
+                .then((querySnapshot) => {
+                    if (querySnapshot.empty) {
+                        gradesContent.innerHTML = '<p>У вас пока нет предметов. Добавьте первый предмет!</p>';
+                        return;
+                    }
+                    
+                    querySnapshot.forEach((doc) => {
+                        const subject = doc.data();
+                        renderSubjectGrades(subject);
+                    });
+                })
+                .catch((error) => {
+                    console.error("Ошибка при загрузке предметов: ", error);
+                });
+        }
+
         // Функция для отображения предмета
         function renderSubject(subject) {
             const subjectElement = document.createElement('div');
             subjectElement.className = 'subject-card';
-            
-            const gradesHtml = subject.grades.map(grade => 
-                `<span class="grade-item">${grade}</span>`
-            ).join('');
-            
             subjectElement.innerHTML = `
                 <div class="subject-header">
                     <div class="subject-title">${subject.name}</div>
                     <div class="subject-average">Средний балл: ${subject.average.toFixed(2)}</div>
                 </div>
-                <div class="grades-list">${gradesHtml}</div>
+                <div class="grades-list">
+                    ${subject.grades.map((grade, index) => 
+                        `<span class="grade-item">${grade}</span>`
+                    ).join('')}
+                </div>
+                <button class="btn-accent small-btn" style="margin-top: 10px;" onclick="promptAddGrade('${subject.name}')">Добавить оценку</button>
             `;
             
             subjectsList.appendChild(subjectElement);
+        }
+
+        // Функция для отображения предмета с настройками оценок
+        function renderSubjectGrades(subject) {
+            const subjectElement = document.createElement('div');
+            subjectElement.className = 'subject-card';
+            
+            const gradesHtml = subject.grades.map((grade, index) => 
+                `<span class="grade-item">
+                    ${grade}
+                    <button class="small-btn" onclick="promptEditGrade('${subject.name}', ${index}, ${grade})">✏️</button>
+                    <button class="small-btn btn-danger" onclick="deleteGrade('${currentUser.uid}', '${subject.name}', ${index})">🗑️</button>
+                </span>`
+            ).join('');
+            
+            subjectElement.innerHTML = `
+                <div class="subject-header">
+                    <div class="subject-title">
+                        ${subject.name}
+                        <button class="small-btn" onclick="promptRenameSubject('${subject.name}')">✏️</button>
+                    </div>
+                    <div class="subject-average">Средний балл: ${subject.average.toFixed(2)}</div>
+                </div>
+                <div class="grades-list">${gradesHtml}</div>
+                <div style="margin-top: 10px;">
+                    <button class="btn-accent small-btn" onclick="promptAddGrade('${subject.name}')">Добавить оценку</button>
+                </div>
+            `;
+            
+            gradesContent.appendChild(subjectElement);
+        }
+
+        // Функция для загрузки списка пользователей (для админа)
+        function loadUsersList() {
+            usersList.innerHTML = '';
+            
+            db.collection('users').get()
+                .then((querySnapshot) => {
+                    querySnapshot.forEach((doc) => {
+                        const userId = doc.id;
+                        // Получаем email пользователя из auth (это упрощенный подход)
+                        // В реальном приложении нужно хранить email в документе пользователя
+                        renderUserItem(userId);
+                    });
+                })
+                .catch((error) => {
+                    console.error("Ошибка при загрузке пользователей: ", error);
+                });
+        }
+
+        // Функция для отображения пользователя в списке
+        function renderUserItem(userId) {
+            // В реальном приложении нужно получить email пользователя из базы данных
+            // Здесь используем userId как временное решение
+            const userElement = document.createElement('div');
+            userElement.className = 'user-item';
+            userElement.textContent = `Пользователь: ${userId}`;
+            userElement.onclick = () => loadUserDiary(userId);
+            
+            usersList.appendChild(userElement);
+        }
+
+        // Функция для загрузки дневника пользователя
+        function loadUserDiary(userId) {
+            selectedUserDiary.innerHTML = '<h3>Загрузка...</h3>';
+            
+            db.collection('users').doc(userId).collection('subjects')
+                .get()
+                .then((querySnapshot) => {
+                    selectedUserDiary.innerHTML = '<h3>Дневник пользователя</h3>';
+                    
+                    if (querySnapshot.empty) {
+                        selectedUserDiary.innerHTML += '<p>У пользователя нет предметов.</p>';
+                        return;
+                    }
+                    
+                    querySnapshot.forEach((doc) => {
+                        const subject = doc.data();
+                        const subjectElement = document.createElement('div');
+                        subjectElement.className = 'subject-card';
+                        
+                        const gradesHtml = subject.grades.map(grade => 
+                            `<span class="grade-item">${grade}</span>`
+                        ).join('');
+                        
+                        subjectElement.innerHTML = `
+                            <div class="subject-header">
+                                <div class="subject-title">${subject.name}</div>
+                                <div class="subject-average">Средний балл: ${subject.average.toFixed(2)}</div>
+                            </div>
+                            <div class="grades-list">${gradesHtml}</div>
+                        `;
+                        
+                        selectedUserDiary.appendChild(subjectElement);
+                    });
+                })
+                .catch((error) => {
+                    console.error("Ошибка при загрузке дневника пользователя: ", error);
+                    selectedUserDiary.innerHTML = '<p>Ошибка при загрузке дневника.</p>';
+                });
+        }
+
+        // Вспомогательные функции для промптов
+        function promptAddGrade(subjectName) {
+            const grade = prompt('Введите оценку (1-5):');
+            if (grade && currentUser) {
+                const gradeNum = parseInt(grade);
+                if (gradeNum >= 1 && gradeNum <= 5) {
+                    addGradeToSubject(currentUser.uid, subjectName, gradeNum);
+                } else {
+                    alert('Оценка должна быть от 1 до 5');
+                }
+            }
+        }
+
+        function promptEditGrade(subjectName, gradeIndex, currentGrade) {
+            const newGrade = prompt('Введите новую оценку (1-5):', currentGrade);
+            if (newGrade && currentUser) {
+                const gradeNum = parseInt(newGrade);
+                if (gradeNum >= 1 && gradeNum <= 5) {
+                    updateGrade(currentUser.uid, subjectName, gradeIndex, gradeNum);
+                } else {
+                    alert('Оценка должна быть от 1 до 5');
+                }
+            }
+        }
+
+        function promptRenameSubject(currentName) {
+            const newName = prompt('Введите новое название предмета:', currentName);
+            if (newName && newName !== currentName && currentUser) {
+                updateSubjectName(currentUser.uid, currentName, newName);
+            }
         }
 
         // Отслеживание состояния аутентификации
         auth.onAuthStateChanged((user) => {
             if (user) {
                 // Пользователь вошел в систему
+                currentUser = user;
                 userEmail.textContent = user.email;
                 authButtons.style.display = 'none';
                 userInfo.style.display = 'flex';
                 authContainer.style.display = 'none';
                 diaryContainer.style.display = 'block';
                 
+                // Проверяем, является ли пользователь админом
+                isAdmin = user.email === 'alway6offline@gmail.com';
+                if (isAdmin) {
+                    adminTab.style.display = 'block';
+                    loadUsersList();
+                } else {
+                    adminTab.style.display = 'none';
+                }
+                
                 // Загружаем предметы пользователя
                 loadUserSubjects(user.uid);
             } else {
                 // Пользователь вышел из системы
+                currentUser = null;
+                isAdmin = false;
                 authButtons.style.display = 'flex';
                 userInfo.style.display = 'none';
                 authContainer.style.display = 'block';
                 diaryContainer.style.display = 'none';
                 subjectsList.innerHTML = '';
+                gradesContent.innerHTML = '';
+                usersList.innerHTML = '';
+                selectedUserDiary.innerHTML = '';
             }
         });
+
+        // Делаем функции глобальными для использования в onclick
+        window.promptAddGrade = promptAddGrade;
+        window.promptEditGrade = promptEditGrade;
+        window.promptRenameSubject = promptRenameSubject;
+        window.deleteGrade = deleteGrade;
     </script>
 </body>
 </html>
